@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,HostListener } from '@angular/core';
+import { Component, OnInit,ViewChild,HostListener,AfterViewInit } from '@angular/core';
 import {NgxChessBoardView} from 'ngx-chess-board';
 
 @Component({
@@ -7,21 +7,32 @@ import {NgxChessBoardView} from 'ngx-chess-board';
   styleUrls: ['./iframepage.component.css']
 })
 
-export class IframepageComponent implements OnInit {
+export class IframepageComponent implements AfterViewInit, OnInit {
 
   constructor() { }
-  
+restoreFromLocal(){
+  console.log("restore from local")
+    const state = localStorage.getItem('chessdata');
+    if(state){
+      console.log(state);
+    this.setFen(state);
+    }
+    // if(state){
+    //   this.postMessage("iframe1",{"fen":state});
+    //   this.postMessage("iframe2",{"fen":state});
+    // }
+  }
 @HostListener('window:message', ['$event'])
-  handleMessageEvent(event: any) {
+  handleMessageEvent(event: MessageEvent) {
        if(!event.data.type){
                this.setFen(event.data.fen);
-           if(event.data.reset === true){
-         this.reset();
-      }         
+             if(event.data.reset === true){
+                this.reset();
+                 }         
            }
     }
 
-  handlechange(event: any) {
+  handlechange(event: any): void {
    
     const fen = this.getFen();
     const history = this.getHistory();
@@ -52,6 +63,11 @@ export class IframepageComponent implements OnInit {
      }
 
   ngOnInit(): void {
+    
+  }
+
+  ngAfterViewInit() {
+    this.restoreFromLocal()
   }
   
 

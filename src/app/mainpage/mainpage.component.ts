@@ -4,14 +4,14 @@ import { DomSanitizer } from '@angular/platform-browser';
 import {MatDialog} from '@angular/material/dialog';
 
 export interface MessageData {
-  fen: number;
-  move: string;
-  checkmate: number;
-  target: string; 
+  fen?: string;
+  move?: string;
+  checkmate?: boolean;
+  target?: string;
+  reset?:boolean; 
   };
-export interface ResetData {
-   reset:true;
-}
+
+
 
 @Component({
   selector: 'app-mainpage',
@@ -25,12 +25,13 @@ export class MainpageComponent implements OnInit {
   }
 
   @HostListener('window:message', ['$event'])
-  handleMessageEvent(event: any) {
+  handleMessageEvent(event: MessageEvent) {
    
     if(!event.data.type){
       const target = event.data.source=="iframe1"?"iframe2":"iframe1";
+      this.storeToLocal(event.data.fen);
       this.postMessage(target,{"fen":event.data.fen,"move":event.data.move,"checkmate":event.data.check,"target":target});
-    
+      
       if(event.data.checkmate === true){
           setTimeout(()=>{ this.openDialog() }, 10);
           }
@@ -43,20 +44,34 @@ export class MainpageComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
      
       if(result===true)
-      {
+      {  this.clearLocal()
          this.postMessage("iframe1",{"reset":true});
          this.postMessage("iframe2",{"reset":true});
       }
     });
   };
- postMessage(target:string,data:MessageData|ResetData){
+ postMessage(target:string,data:MessageData){
     const iframe = document?.getElementById(target) as HTMLIFrameElement;  
     iframe.contentWindow?.postMessage(data, "*");
  }
- storeToLocal(state:any){
-  // localStorage.setItem('dataSource', this.dataSource.length);
+ storeToLocal(state:string){
+   console.log(state);
+  localStorage.setItem('chessdata', state);
+  }
+  restoreFromLocal(){
+    const state = localStorage.getItem('chessdata');
+    
+    // if(state){
+    //   this.postMessage("iframe1",{"fen":state});
+    //   this.postMessage("iframe2",{"fen":state});
+    // }
+  }
+  clearLocal(){
+    localStorage.clear(); 
   }
 ngOnInit(): void {
+
+  // this.restoreFromLocal();
 }
 
 
