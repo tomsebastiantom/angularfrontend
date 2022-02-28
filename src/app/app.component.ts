@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'pencilfrontend';
+  displayappcomponent = window.frameElement?.id?.includes('iframe') ? false : true;
+ 
+
 }
