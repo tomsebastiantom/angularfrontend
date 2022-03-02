@@ -1,11 +1,10 @@
-
-iframe{  
-    width: 40%; 
-    height: 600px;
-    border: none;
-   }
-.chessboard{
-    display: flex;
-    width: auto;
-    height: 100%;
+iframe {
+  width: 40%;
+  height: 600px;
+  border: none;
+}
+.chessboard {
+  display: flex;
+  width: auto;
+  height: 100%;
 }

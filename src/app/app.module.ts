@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgxChessBoardModule } from "ngx-chess-board";
+import { NgxChessBoardModule } from 'ngx-chess-board';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -9,13 +9,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainpageComponent } from './mainpage/mainpage.component';
 import { IframepageComponent } from './iframepage/iframepage.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
     MainpageComponent,
     IframepageComponent,
-    MainpageDialogComponent
+    MainpageDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,6 +24,6 @@ import { IframepageComponent } from './iframepage/iframepage.component';
     BrowserAnimationsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

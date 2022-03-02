@@ -14,12 +14,14 @@ import { NgxChessBoardView } from 'ngx-chess-board';
 })
 export class IframepageComponent implements AfterViewInit, OnInit {
   constructor() {}
+ 
   restoreFromLocal() {
     const state = localStorage.getItem('chessdata');
     if (state) {
       this.setFen(state);
     }
   }
+  //listening to the message event from the mainpage
   @HostListener('window:message', ['$event'])
   handleMessageEvent(event: MessageEvent) {
     if (!event.data.type) {
@@ -29,7 +31,7 @@ export class IframepageComponent implements AfterViewInit, OnInit {
       }
     }
   }
-
+ //handling the moveChange event on the board
   handlechange(event: any): void {
     const fen = this.getFen();
     const history = this.getHistory();
@@ -43,6 +45,7 @@ export class IframepageComponent implements AfterViewInit, OnInit {
       '*'
     );
   }
+ 
   @ViewChild('board', { static: false }) board: NgxChessBoardView | undefined;
   reset(): void {
     this.board?.reset();
@@ -66,7 +69,9 @@ export class IframepageComponent implements AfterViewInit, OnInit {
     this.board?.move(move);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    
+  }
 
   ngAfterViewInit() {
     this.restoreFromLocal();
